@@ -1,0 +1,30 @@
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+insert into table cdw_sapp_d_branch
+	partition (BRANCH_ZIP)
+	select branch_code, branch_name, branch_street, branch_city, 
+	branch_STATE, branch_phone, last_updated, branch_ZIP
+	from temp_branch;
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+insert into table cdw_sapp_f_creditcard
+	partition (BRANCH_CODE)
+	select transaction_id, cust_cc_no, timeid, cust_ssn, transaction_type, transaction_value, branch_code
+	from temp_creditcard;
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+insert into table cdw_sapp_d_customer
+	partition (cust_zip)
+	select cust_ssn, CUST_F_NAME, CUST_M_NAME, CUST_L_NAME, 
+	cust_cc_no, cust_street, cust_city, cust_state, cust_country, 
+	cust_phone, cust_email, last_updated, cust_zip
+	from temp_customer;	
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+insert into table cdw_sapp_d_time
+	partition (quarter)
+	select timeid, day, month, year, transaction_id, quarter
+	from temp_time;

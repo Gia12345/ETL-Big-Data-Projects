@@ -1,0 +1,14 @@
+These files are for the initial load oozie.
+1.  csdroptablesupdate drops all four of the staging tables.
+2.  CSSqoopJobsMetaUpdate contains the commands to create four sqoop jobs to update, 
+one for each table (branch, credit card, customer, time).
+3.  cstemptables contains the Hive to create all four of the staging tables.
+4.  csloadtablesupdate contains the Hive to load all four partitioned tables from the
+staging tables.
+5.  csworkflowupdate contains the oozie workflow that drops the staging tables
+(csdroptablesupdate), runs all four sqoop update jobs, creates the staging tables 
+(cstemptables), and loads the partitioned tables (csloadtablesupdate).
+6.  csjobudate is the properties file that starts the oozie workflow csworkflowupdate.
+7.  cscoordinator is the oozie workflow file that calls the csworkflowupdate 
+workflow.
+8.  csjobupdatecoord is the properites file that starts the oozie coordinator cscoordinator.

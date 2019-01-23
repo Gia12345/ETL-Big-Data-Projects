@@ -1,0 +1,11 @@
+These files are for the initial load oozie.
+1.  CSSqoopJobsMeta contains the commands to create four sqoop jobs, one for each
+table (branch, credit card, customer, time).
+2.  cstemptables contains the Hive to create all four of the staging tables.
+3.  csexternaltables contains the Hive to create all four of the partitioned tables.
+4.  csloadtables contains the Hive to load all four partitioned tables from the
+staging tables.
+5.  csworkflow contains the oozie workflow that runs all four sqoop jobs, creates
+the staging tables (cstemptables), creates the partitioned tables (csexternaltables),
+and loads the partitioned tables (csloadtables).
+6.  csjob is the properties file that starts the oozie workflow.

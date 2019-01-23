@@ -1,0 +1,65 @@
+drop table if exists temp_branch;
+create table temp_branch
+	(BRANCH_CODE bigint,  
+	BRANCH_NAME varchar(25),
+	BRANCH_STREET varchar(30),
+	BRANCH_CITY varchar(30),
+	BRANCH_STATE varchar(2),
+	BRANCH_ZIP varchar(5),
+	BRANCH_PHONE varchar(13),
+	LAST_UPDATED TIMESTAMP)
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY '\t' 
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION "/user/maria_dev/temp_Credit_Card_System/branch/";
+
+drop table if exists temp_creditcard;
+create table temp_creditcard
+	(TRANSACTION_ID int,
+	CUST_CC_NO string, 
+	TIMEID varchar(8), 
+	CUST_SSN int,
+	BRANCH_CODE int,
+	TRANSACTION_TYPE varchar(30), 
+	TRANSACTION_VALUE decimal(20,3))
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY '\t' 
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION "/user/maria_dev/temp_Credit_Card_System/credit_card";
+
+drop table if exists temp_customer;
+create table temp_customer
+	(CUST_SSN INT,
+	CUST_F_NAME VARCHAR(40),
+	CUST_M_NAME VARCHAR(40),
+	CUST_L_NAME VARCHAR(40),
+	CUST_CC_NO STRING,
+	CUST_STREET VARCHAR(38),
+	CUST_CITY VARCHAR(30),
+	CUST_STATE VARCHAR(30),
+	CUST_COUNTRY VARCHAR(30),
+	CUST_ZIP VARCHAR(5),
+	CUST_PHONE VARCHAR(8),
+	CUST_EMAIL VARCHAR(40),
+	LAST_UPDATED TIMESTAMP)
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY '\t' 
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION "/user/maria_dev/temp_Credit_Card_System/customer";
+
+drop table if exists temp_time;
+create table temp_time
+	(TIMEID varchar(8),
+	Day int,
+	Month int,
+	Year int,
+	Transaction_id int,
+	quarter varchar(2))
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY '\t' 
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION "/user/maria_dev/temp_Credit_Card_System/time";

@@ -1,0 +1,73 @@
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+drop table if exists cdw_sapp_d_branch;
+create external table cdw_sapp_d_branch
+	(BRANCH_CODE bigint,  
+	BRANCH_NAME varchar(25),
+	BRANCH_STREET varchar(30),
+	BRANCH_CITY varchar(30),
+	BRANCH_STATE varchar(2),
+	BRANCH_PHONE varchar(13),
+	LAST_UPDATED TIMESTAMP)
+PARTITIONED BY (BRANCH_ZIP varchar(5))
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION "/user/maria_dev/Credit_Card_System/partitioned_branch";
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+drop table if exists cdw_sapp_f_creditcard;
+create external table cdw_sapp_f_creditcard
+	(TRANSACTION_ID int,
+	CUST_CC_NO string, 
+	TIMEID varchar(8), 
+	CUST_SSN int, 
+	TRANSACTION_TYPE varchar(30), 
+	TRANSACTION_VALUE decimal(20,3))
+PARTITIONED BY (BRANCH_CODE int)
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION "/user/maria_dev/Credit_Card_System/partitioned_credit_card";
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+drop table if exists cdw_sapp_d_customer;
+create external table cdw_sapp_d_customer
+	(CUST_SSN INT,
+	CUST_F_NAME VARCHAR(40),
+	CUST_M_NAME VARCHAR(40),
+	CUST_L_NAME VARCHAR(40),
+	CUST_CC_NO STRING,
+	CUST_STREET VARCHAR(38),
+	CUST_CITY VARCHAR(30),
+	CUST_STATE VARCHAR(30),
+	CUST_COUNTRY VARCHAR(30),
+	CUST_PHONE VARCHAR(8),
+	CUST_EMAIL VARCHAR(40),
+	LAST_UPDATED TIMESTAMP)
+PARTITIONED BY (CUST_ZIP VARCHAR(5))
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY '|' 
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION "/user/maria_dev/Credit_Card_System/partitioned_customer";
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+drop table if exists cdw_sapp_d_time;
+create external table cdw_sapp_d_time
+	(TIMEID varchar(8),
+	Day int,
+	Month int,
+	Year int,
+	Transaction_id int)
+PARTITIONED BY (Quarter varchar(2))
+ROW FORMAT DELIMITED 
+FIELDS TERMINATED BY ',' 
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE
+LOCATION "/user/maria_dev/Credit_Card_System/partitioned_time";

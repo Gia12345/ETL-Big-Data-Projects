@@ -1,0 +1,16 @@
+<coordinator-app xmlns = "uri:oozie:coordinator:0.2" name =
+   "Update Branch CC Customer Time Tables" frequency = "0/20 13-23 * * 2-6" start =   "2019-01-03T19:25Z" end = "2025-03-29T23:00Z" timezone="UTC" >
+   <controls>
+      <timeout>1</timeout>
+      <concurrency>1</concurrency>
+      <execution>FIFO</execution>
+      <throttle>1</throttle>
+   </controls>
+   
+   <action>
+      <workflow>
+         <app-path>${nameNode}/user/maria_dev/oozie_cs/csworkflowupdate.xml</app-path>
+      </workflow>
+   </action>
+	
+</coordinator-app>

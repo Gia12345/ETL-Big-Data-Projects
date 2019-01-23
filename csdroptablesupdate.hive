@@ -1,0 +1,4 @@
+drop table if exists temp_branch;
+drop table if exists temp_creditcard;
+drop table if exists temp_customer;
+drop table if exists temp_time;

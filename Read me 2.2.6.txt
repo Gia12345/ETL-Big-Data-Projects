@@ -1,0 +1,6 @@
+This contains two files.
+1.  csvis contains that Hive for the queries 
+Query 1:  Find the top 20 zip codes by total transaction value.
+Query 2:  Find total transaction value for each transaction type by quarter in 2018
+2.  Gia Gillis Case Study 2.2.6 Vis contains screen prints of the visualiaztions
+of both queries.
