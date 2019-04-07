@@ -1,3 +1,3 @@
-# Case-study-from-fellowship-Big-Data
-# SQL, Sqoop, Hive, Oozie, Visualization in Hive
+# ETL Big data projects from fellowship
+# SQL, Sqoop, Hive, Oozie, and Visualization in Hive
 
