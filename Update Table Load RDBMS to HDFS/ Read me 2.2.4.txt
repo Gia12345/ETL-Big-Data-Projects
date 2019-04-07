@@ -1,4 +1,4 @@
-These files are for the initial load oozie.
+These files are for the update load oozie.
 1.  csdroptablesupdate drops all four of the staging tables.
 2.  CSSqoopJobsMetaUpdate contains the commands to create four sqoop jobs to update, 
 one for each table (branch, credit card, customer, time).
