@@ -1,0 +1,92 @@
+/*Gia*/
+
+/*1. Write a query to display each customer’s name (as “Customer Name”) alongside the name of the 
+employee who is responsible for that customer’s orders. 
+The employee name should be in a single “Sales Rep” column formatted as “lastName, firstName”. 
+The output should be sorted alphabetically by customer name.
+ */
+
+select c.customerName as 'Customer Name', 
+		coalesce(concat(e.lastname, ', ', e.firstName), 'None') as 'Sales Rep'
+	from customers c left join employees e 
+		on c.salesRepEmployeeNumber=e.employeeNumber
+    order by c.customerName;
+   
+ /*2. Determine which products are most popular with our customers. For each product, 
+list the total quantity ordered along with the total sale generated 
+(total quantity ordered * buyPrice) for that product. 
+The column headers should be “Product Name”, “Total # Ordered” and “Total Sale”. 
+List the products by Total Sale descending.
+*/
+ 
+ select p.productName as 'Product Name', 
+		coalesce(sum(o.quantityOrdered), 0) as 'Total # Ordered',
+        format(coalesce(sum(o.quantityOrdered*p.buyPrice), 0), 2) as 'Total Sale'
+	from products p left join orderdetails o on o.productCode=p.productCode
+    group by p.productName
+    order by sum(o.quantityOrdered*p.buyPrice) desc;
+    
+
+/*3. Write a query which lists order status and the # of orders with that status. 
+Column headers should be “Order Status” and “# Orders”. Sort alphabetically by status.
+*/
+ 
+ select status 'Order Status', count(status) as '# Orders'
+	from orders
+    group by status
+    order by status;
+
+ 
+/*4. Write a query to list, for each product line, the total # of products sold from that 
+product line. The first column should be “Product Line” and the second should be “# Sold”. 
+Order by the second column descending.
+*/
+ 
+ select p.productLine as 'Product Line', coalesce(sum(o.quantityOrdered), 0) as '# Sold'
+	from products p left join orderdetails o on o.productCode = p.productCode
+    group by productLine
+    order by sum(o.quantityOrdered) desc;
+
+ 
+/*5. For each employee who represents customers, output the total # of orders 
+that employee’s customers have placed alongside the total sale amount of those orders. 
+The employee name should be output as a single column named “Sales Rep” formatted 
+as “lastName, firstName”. The second column should be titled “# Orders” and the third 
+should be “Total Sales”. 
+Sort the output by Total Sales descending. 
+Only (and all) employees with the job title ‘Sales Rep’ should be included in the output, 
+and if the employee made no sales the Total Sales should display as “0.00”.
+*/
+
+/***************/
+/*Defining total sales as quantity (quantyOrdered) * purchase price (priceEach) */
+/***************/
+ 
+ select concat(e.lastName, ', ', e.firstName) as 'Sales Rep',
+		count(distinct o.orderNumber) as '# Orders',
+        format(coalesce(sum(od.quantityOrdered * od.priceEach), 0), 2) as 'Total Sales'
+	from (select * from employees where jobTitle = 'Sales Rep') e
+		left join customers c 
+			on e.employeeNumber = c.salesRepEmployeeNumber
+        left join orders o on c.customerNumber = o.customerNumber
+        left join orderDetails od on od.orderNumber = o.orderNumber
+	group by e.employeeNumber
+    order by sum(od.quantityOrdered * od.priceEach) desc;
+
+/*6. Your product team is requesting data to help them create a bar-chart of monthly sales 
+since the company’s inception. Write a query to output the month (January, February, etc.), 
+4-digit year, and total sales for that month. The first column should be labeled ‘Month’, 
+the second ‘Year’, and the third should be ‘Payments Received’. Values in the third column 
+should be formatted as numbers with two decimals – for example: 694,292.68.
+*/
+
+/***************/
+/*Defining payments received (total sales) as quantity (quantityOrdered) * purchase price (priceEach)*/
+/***************/
+
+select monthname(o.orderDate) as 'Month',
+		year(o.orderDate) as 'Year', 
+		format(coalesce(sum(od.quantityOrdered * od.priceEach), 0), 2) as 'Payments Received'
+	from orderdetails od join orders o on o.orderNumber = od.orderNumber
+    group by year(o.orderDate), month(o.orderDate)
+    order by year(o.orderDate), month(o.orderDate);

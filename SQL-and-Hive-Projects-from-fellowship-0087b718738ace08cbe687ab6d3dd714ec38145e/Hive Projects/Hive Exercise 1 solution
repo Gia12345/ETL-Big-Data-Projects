@@ -1,0 +1,30 @@
+Problem 1
+drop table if exists temp_patents;
+create external table temp_patents (col_value String)
+		tblproperties("skip.header.line.count"="1");
+LOAD DATA INPATH '/user/maria_dev/Hive_assignment_1/apat63_99data.txt' OVERWRITE INTO TABLE temp_patents;
+
+set hive.exec.dynamic.partition=true;
+set hive.exec.dynamic.partition.mode=nonstrict;
+
+drop table if exists patents;
+create external table patents (patent string, country string)
+	partitioned by (gyear String)
+	row format delimited fields terminated by ','
+	escaped by "" lines terminated by '\n'
+	stored as textfile
+	location "/user/maria_dev/Hive_a1_outputw";
+
+insert overwrite table patents
+	partition (gyear)
+	select
+ 		regexp_extract(col_value, '^(?:([^,]*),?){1}', 1) patent,
+ 		regexp_extract(col_value, '^(?:([^,]*),?){5}', 1) country,
+ 		regexp_extract(col_value, '^(?:([^,]*),?){2}', 1) gyear
+	from temp_patents;
+
+Problem 2
+select count(patent) from patents where gyear='1963';
+
+Problem 3
+select country, count(patent) from patents where gyear='1999' group by country;

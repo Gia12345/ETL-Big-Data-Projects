@@ -1,0 +1,23 @@
+
+Data Sets: NASDAQ Exchange Daily 1970-2010 Open, Close, High, Low and Volume
+
+Download links:    NASDAQ_dividends_A.csv (Links to an external site.)Links to an external site.     
+
+NASDAQ_daily_prices_A_sample.csv (Links to an external site.)Links to an external site.
+
+Summary of data: There are two types of data
+
+File name starting with NASDAQ_daily_prices*: These files is a CSV (comma seperated values) file which contains following fields which are self-explanatory.
+exchange, stock_symbol,date, stock_price_open, stock_price_high, stock_price_low, stock_price,_close, stock_volume, stock_price_adj_close
+
+File name starting with NASDAQ_daily_prices*: These files is a CSV (comma separated values) file which contains following fields which are self-explanatory.
+exchange, stock_symbol, date,dividends
+
+Find the Solution for following problems
+
+1 Create an external table for NASDAQ daily prices data set.
+2 Create an external table for NASDAQ dividends data set.
+3 Find out total volume sale for each stock symbol which has closing price more than $5.
+4 Find out highest price in the history for each stock symbol.
+5 Find out highest dividends given for each stock symbol in entire history.
+6 Find out highest price and highest dividends for each stock symbol if highest price and highest dividends exist.

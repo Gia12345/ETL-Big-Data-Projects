@@ -1,0 +1,46 @@
+Problem 1
+drop table if exists temp_daily_prices;
+create external table temp_daily_prices (col_val String);
+
+LOAD DATA INPATH '/user/maria_dev/HIve_assignment_2/NASDAQ_daily_prices_A_sample.csv' OVERWRITE INTO TABLE temp_daily_prices;
+
+drop table if exists daily_prices;
+create external table daily_prices (exc String, stock_symbol String, pricedate String, stock_price_open double, stock_price_high double, stock_price_low double, stock_price_close double, stock_volume bigint, stock_price_adj_close double);
+
+insert overwrite table daily_prices
+SELECT
+ regexp_extract(col_val, '^(?:([^,]*),?){1}', 1) exc,
+ regexp_extract(col_val, '^(?:([^,]*),?){2}', 1) stock_symbol,
+ regexp_extract(col_val, '^(?:([^,]*),?){3}', 1) pricedate,
+ regexp_extract(col_val, '^(?:([^,]*),?){4}', 1) stock_price_open,
+ regexp_extract(col_val, '^(?:([^,]*),?){5}', 1) stock_price_high,
+ regexp_extract(col_val, '^(?:([^,]*),?){6}', 1) stock_price_low,
+ regexp_extract(col_val, '^(?:([^,]*),?){7}', 1) stock_price_close,
+ regexp_extract(col_val, '^(?:([^,]*),?){8}', 1) stock_volume,
+ regexp_extract(col_val, '^(?:([^,]*),?){9}', 1) stock_price_adj_close
+from temp_daily_prices;
+
+Problem 2
+drop table if exists dividends;
+
+create external table dividends (exchange1 String, stock_symbol String, date1 String, dividends double)
+row format delimited
+fields terminated by ','
+lines terminated by '\n'
+location "/user/maria_dev/HIve_assignment_2/"
+tblproperties("skip.header.line.count"="1");
+
+Problem 3
+select stock_symbol, sum(stock_volume) from daily_prices where stock_price_close > 5
+group by stock_symbol;
+
+Problem 4
+select stock_symbol, max(stock_price_high) from daily_prices group by stock_symbol;
+
+Problem 5
+select stock_symbol, max(dividends) from dividends group by stock_symbol;
+
+Problem 6
+select d.stock_symbol, max(dp.stock_price_high), max(d.dividends)
+from daily_prices dp join dividends d on dp.stock_symbol=d.stock_symbol
+group by d.stock_symbol;

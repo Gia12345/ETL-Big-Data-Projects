@@ -1,0 +1,23 @@
+Data Set: The NBER U.S. Patent Data
+
+Data Link: http://www.nber.org/patents/ (Links to an external site.)Links to an external site.
+
+We will use two of the data sets:
+
+Patent data, including constructed variables:
+Data link: http://www.nber.org/patents/apat63_99.zip (Links to an external site.)Links to an external site.
+
+Summary of this data is given here - http://www.nber.org/patents/pat63_99.txt (Links to an external site.)Links to an external site.
+
+Class codes with corresponding class names:
+Data Link: http://www.nber.org/patents/list_of_classes.txt (Links to an external site.)Links to an external site.
+
+Summary of data: This data need to be cleaned in a way so that it only contains class Id and title in tab separated form. Just remove first 9 lines.
+
+Problems 
+
+For this problem we have divided data for patents into multiple files, one file containing patents granted in one particular year.
+
+Create an external table for Patent data set so that it can be used efficiently for queries which require looking into patents granted for given year.
+Find out number of patents granted in year 1963.
+Find out number of patents granted in each country in year 1999.
